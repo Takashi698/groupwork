@@ -62,3 +62,5 @@ class VendingMachine
     @slot_money = 0
   end
 end
+
+# GitHub グループワークpushテスト（宮崎）
