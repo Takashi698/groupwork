@@ -14,6 +14,24 @@
 # 作成した自動販売機に入れたお金を返してもらう
 # vm.return_money
 
+class Drink
+  attr_reader :name, :price
+  def initialize(name, price)
+      @name = name
+      @price = price
+  end
+  def self.water
+      self.new( 'water',100 )
+  end
+  def self.cola
+      self.new( 'cola', 120 )
+  end
+  def self.redbull
+      self.new( 'redbull', 200)
+  end
+end
+
+
 class VendingMachine
   # ステップ１　扱えないお金の例コード
   # 10円玉、50円玉、100円玉、500円玉、1000円札を１つずつ投入できる。
@@ -22,6 +40,10 @@ class VendingMachine
   def initialize
     # 最初の自動販売機に入っている金額は0円
     @slot_money = 0
+    # 売上がまだ無い
+    @sale_amount = 0
+    # 初期値のストック数
+    @stocks = {cola: 5, water: 5, redbull: 5}
   end
 
   # 投入金額の総計を取得できる。
@@ -61,6 +83,11 @@ class VendingMachine
     # 自動販売機に入っているお金を0円に戻す
     @slot_money = 0
   end
-end
 
-# GitHub グループワークpushテスト（宮崎）
+  def buy(drink)
+    @slot_money -= drink.price
+    @stocks[drink.name.to_sym] -= 1
+    @sale_amount += drink.price
+  end
+
+end
