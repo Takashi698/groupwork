@@ -3,7 +3,6 @@
 # irb
 # require '/Users/okatakashi/workspace/groupwork/vending_machine.rb'
 # （↑のパスは、自動販売機ファイルが入っているパスを指定する）
-
   # ...ステップ０　お金の投入と払い戻しの例コード
 # 初期設定（自動販売機インスタンスを作成して、vmという変数に代入する）
 # vm = VendingMachine.new
@@ -30,7 +29,18 @@ class Drink
       self.new( 'redbull', 200)
   end
 end
-
+# ジュース値段以上の投入金額が投入されている条件下で購入操作を行うと、ジュースの在庫を減らし、売り上げ金額を増やす。
+class Stocks
+  def initialize(name, price, stocks)
+    @stocks = [name, price.to_i, stocks.to_i]
+  end
+  def info1
+    puts @stocks
+  end
+end
+# cola = Stocks.new(“cola”, 120, 5)
+#cola.info(“cola”, 120, 5)
+#cola.info1
 
 class VendingMachine
   # ステップ１　扱えないお金の例コード
@@ -51,7 +61,6 @@ class VendingMachine
     # 自動販売機に入っているお金を表示する
     @slot_money
   end
-
   # 10円玉、50円玉、100円玉、500円玉、1000円札を１つずつ投入できる。
   # 投入は複数回できる。
   def slot_money(money)
@@ -67,15 +76,14 @@ class VendingMachine
     else
       # 自動販売機にお金を入れる
       puts "#{money}円は使用できません。"
-    # else 
+    # else
     #   nil != (money =~ /\A[a-z]+\z/)
     #   puts "お金を入れてください。"
     end
     #..... より簡易的な書き方（https://blog.jnito.com/entry/2013/05/22/073525）
-    # MONEY.include?(money) ? 
+    # MONEY.include?(money) ?
     # nil.tap { @slot_money += money } : money
   end
-
   # 払い戻し操作を行うと、投入金額の総計を釣り銭として出力する。
   def return_money
     # 返すお金の金額を表示する
@@ -85,9 +93,36 @@ class VendingMachine
   end
 
   def buy(drink)
-    @slot_money -= drink.price
-    @stocks[drink.name.to_sym] -= 1
-    @sale_amount += drink.price
+    while @stocks[drink.name.to_sym] >= 1
+      if @slot_money >= drink.price
+        @slot_money -= drink.price
+        @stocks[drink.name.to_sym] -= 1
+        @sale_amount += drink.price
+        puts "買える"
+      else
+        puts "買えない"
+      end
+     break
+    end
   end
+# ステップ３　投入金額、在庫の点で、コーラが購入できるかどうかを取得できる
+#   def purchasable?(drink)
+#     if @slot_money >= drink.price && @stocks[drink.name.to_sym] > 0
+#       "#{drink.name}:#{@stocks[drink.name.to_sym]}"
+#     else
+#       "#{drink.name}:買えません"
+#     end
+#   end
+# end
 
+
+  def purchasable(drink)
+    if @slot_money >= drink.price && @stocks[drink.name.to_sym] > 0
+      puts "購入できます。"
+    elsif @slot_money < drink.price && @stocks[drink.name.to_sym] > 0
+      puts "購入金額が足りません。お金を入れてください。"
+    elsif @stocks[drink.name.to_sym] = 0
+      puts "在庫が無いので購入できません。"
+    end
+  end
 end
