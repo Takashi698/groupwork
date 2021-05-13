@@ -69,22 +69,11 @@ class VendingMachine
         @stocks[drink.name.to_sym] -= 1
         @sale_amount += drink.price
         puts "#{drink.name}を1本購入しました。"
-        puts "お釣り（残金）は#{@slot_money}円です。"
+        puts "残金は#{@slot_money}円です。"
       else
         puts "購入できません。"
       end
       break
-    end
-  end
-
-  # ステップ３ 投入金額、在庫の点で、コーラが購入できるかどうかを取得できる
-  def purchasable(drink)
-    if @slot_money >= drink.price && @stocks[drink.name.to_sym] > 0
-      puts "#{drink.name}は購入できます。"
-    elsif @slot_money < drink.price && @stocks[drink.name.to_sym] > 0
-      puts "購入金額が足りません。お金を入れてください。"
-    elsif @stocks[drink.name.to_sym] = 0
-      puts "在庫が無いので購入できません。"
     end
   end
 
@@ -98,20 +87,17 @@ class VendingMachine
     puts "#{drink.name}は#{@stocks[drink.name.to_sym] += 1}本の在庫があります。"
   end
 
-  # ステップ4 投入金額、在庫の点で購入可能なドリンクのリストを取得できる。
-  def purchasable_drink_names
-    @stocks
-  end
-
-  # ステップ4 投入金額、在庫の点で購入可能なドリンクのリストを取得できる。
+  # ステップ３ 投入金額、在庫の点で、コーラが購入できるかどうかを取得できる  
   def purchasable(drink)
     if @slot_money >= drink.price && @stocks[drink.name.to_sym] > 0
       "#{drink.name}:#{@stocks[drink.name.to_sym]}"
+    elsif @slot_money < drink.price && @stocks[drink.name.to_sym] > 0
+      "#{drink.name}:お金が足りません"
     else
-      "#{drink.name}:買えません"
+      "#{drink.name}:売り切れです"
     end
   end
-
+  # ステップ4 投入金額、在庫の点で購入可能なドリンクのリストを取得できる。
   def purchasable_drink_list
     puts (purchasable(Drink.cola))
     puts (purchasable(Drink.water))
