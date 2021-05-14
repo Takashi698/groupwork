@@ -70,8 +70,6 @@ class VendingMachine
         @sale_amount += drink.price
         puts "#{drink.name}を1本購入しました。"
         puts "残金は#{@slot_money}円です。"
-      else
-        puts "購入できません。"
       end
       break
     end
@@ -97,6 +95,7 @@ class VendingMachine
       "#{drink.name}:売り切れです"
     end
   end
+
   # ステップ4 投入金額、在庫の点で購入可能なドリンクのリストを取得できる。
   def purchasable_drink_list
     puts (purchasable(Drink.cola))

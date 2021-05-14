@@ -36,13 +36,14 @@ $ vm.purchasable(Drink.cola)
 購入操作
 ```
 $ vm.buy(Drink.cola)
-$ vm.store(Drink.water)
-$ vm.store(Drink.redbull)
+$ vm.buy(Drink.water)
+$ vm.buy(Drink.redbull)
 ```
 購入できるドリンクのリストを取得する
 ```
 $ vm.purchasable_drink_list
 ```
+
 
 #### 管理者側操作
 ドリンクを補充する
@@ -50,6 +51,10 @@ $ vm.purchasable_drink_list
 $ vm.store(Drink.cola)
 $ vm.store(Drink.water)
 $ vm.store(Drink.redbull)
+```
+格納されているドリンクのリストを取得する
+```
+$ vm.purchasable_drink_list
 ```
 売上金の確認
 ```
